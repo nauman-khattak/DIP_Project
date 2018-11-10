@@ -41,16 +41,11 @@ public abstract class AbstractProcessing implements Processing {
 
     protected void fireProcessingEnded(int totalPixels, BufferedImage result) {
         ProcessingEvent evt = null;
-        try {
-            for (ProcessingListener l : listeners) {
-                if (evt == null) {
-                    evt = new ProcessingEvent(this, "", totalPixels, totalPixels, result);
-                }
-                l.operationEnded(evt);
+        for (ProcessingListener l : listeners) {
+            if (evt == null) {
+                evt = new ProcessingEvent(this, "", totalPixels, totalPixels, result);
             }
-        } catch (ConcurrentModificationException e) {
-//            System.out.println(e.getMessage());
+            l.operationEnded(evt);
         }
-
     }
 }

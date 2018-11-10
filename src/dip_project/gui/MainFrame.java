@@ -36,7 +36,6 @@ public class MainFrame extends JFrame {
     
     private JMenuItem mniFlipVertical;
     private JMenuItem mniFlipHorizontal;
-    private JMenu mnuRotate;
     private JMenuItem mniFlipBoth;
     private JMenu mnuFlip;
     private JMenu mnuGrow;
