@@ -1,13 +1,9 @@
 package dip_project.gui;
 
 import dip_project.ImageLoader;
-//import dip_project.color.ARGBChannels;
-//import dip_project.color.ColorChannel;
-//import dip_project.color.GrayScaleChannel;
 import dip_project.processing.Processing;
 import dip_project.transform.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -15,13 +11,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
@@ -31,9 +23,8 @@ public class MainFrame extends JFrame {
     private JMenu mnuFile = null;
     private JMenu mnuEdit = null;
 
-    private JMenu mnuHelp = null;
+    private JMenu mnuAbout = null;
     private JMenuItem mniOpen = null;
-    private JMenuItem mniSaveAs = null;
     private JMenuItem mniAbout = null;
     private JMenuItem mniExit = null;
     private JFileChooser openDialog = null;
@@ -43,9 +34,6 @@ public class MainFrame extends JFrame {
     private static final String[] SUPPORTED_FORMATS = {"png", "jpg", "jpeg",
             "png", "gif", "tiff", "tif", "bmp"};
     
-    private JMenuItem mniRotate90;
-    private JMenuItem mniRotate180;
-    private JMenuItem mniRotate270;
     private JMenuItem mniFlipVertical;
     private JMenuItem mniFlipHorizontal;
     private JMenu mnuRotate;
@@ -82,9 +70,7 @@ public class MainFrame extends JFrame {
         if (mnuFile == null) {
             mnuFile = new JMenu();
             mnuFile.setText("File");
-            mnuFile.setMnemonic(KeyEvent.VK_F);
             mnuFile.add(getMniOpen());
-            mnuFile.add(getMniSaveAs());
             mnuFile.addSeparator();
             mnuFile.add(getMniExit());
         }
@@ -95,8 +81,6 @@ public class MainFrame extends JFrame {
         if (mnuEdit == null) {
             mnuEdit = new JMenu();
             mnuEdit.setText("Edit");
-            mnuEdit.setMnemonic(KeyEvent.VK_E);
-            mnuEdit.add(getMnuRotate());
             mnuEdit.add(getMnuFlip());
             mnuEdit.addSeparator();
             mnuEdit.add(getMnuShrink());
@@ -107,23 +91,10 @@ public class MainFrame extends JFrame {
         return mnuEdit;
     }
 
-    private JMenu getMnuRotate() {
-        if (mnuRotate == null) {
-            mnuRotate = new JMenu();
-            mnuRotate.setText("Rotate");
-            mnuRotate.setMnemonic(KeyEvent.VK_R);
-            mnuRotate.add(getMniRotate90());
-            mnuRotate.add(getMniRotate180());
-            mnuRotate.add(getMniRotate270());
-        }
-        return mnuRotate;
-    }
-
     private JMenu getMnuFlip() {
         if (mnuFlip == null) {
             mnuFlip = new JMenu();
             mnuFlip.setText("Flip");
-            mnuFlip.setMnemonic(KeyEvent.VK_F);
             mnuFlip.add(getMniFlipVertical());
             mnuFlip.add(getMniFlipHorizontal());
             mnuFlip.add(getMniFlipBoth());
@@ -135,7 +106,6 @@ public class MainFrame extends JFrame {
         if (mnuGrow == null) {
             mnuGrow = new JMenu();
             mnuGrow.setText("Enlarge");
-            mnuGrow.setMnemonic(KeyEvent.VK_E);
             mnuGrow.add(getMniGrow2x());
             mnuGrow.add(getMniGrow4x());
             mnuGrow.add(getMniGrow8x());
@@ -150,7 +120,6 @@ public class MainFrame extends JFrame {
             mnuShrink.add(getMniShrink2x());
             mnuShrink.add(getMniShrink4x());
             mnuShrink.add(getMniShrink8x());
-            mnuShrink.setMnemonic(KeyEvent.VK_H);
         }
         return mnuShrink;
     }
@@ -159,7 +128,6 @@ public class MainFrame extends JFrame {
         if (mniShrink2x == null) {
             mniShrink2x = new JMenuItem();
             mniShrink2x.setText("1/2");
-            mniShrink2x.setMnemonic(KeyEvent.VK_2);
             mniShrink2x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -175,7 +143,6 @@ public class MainFrame extends JFrame {
         if (mniShrink4x == null) {
             mniShrink4x = new JMenuItem();
             mniShrink4x.setText("1/4");
-            mniShrink4x.setMnemonic(KeyEvent.VK_4);
             mniShrink4x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -191,7 +158,6 @@ public class MainFrame extends JFrame {
         if (mniShrink8x == null) {
             mniShrink8x = new JMenuItem();
             mniShrink8x.setText("1/8");
-            mniShrink8x.setMnemonic(KeyEvent.VK_8);
             mniShrink8x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -207,7 +173,6 @@ public class MainFrame extends JFrame {
         if (mniGrow2x == null) {
             mniGrow2x = new JMenuItem();
             mniGrow2x.setText("2x");
-            mniGrow2x.setMnemonic(KeyEvent.VK_2);
             mniGrow2x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -223,7 +188,6 @@ public class MainFrame extends JFrame {
         if (mniGrow4x == null) {
             mniGrow4x = new JMenuItem();
             mniGrow4x.setText("4x");
-            mniGrow4x.setMnemonic(KeyEvent.VK_4);
             mniGrow4x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -239,7 +203,6 @@ public class MainFrame extends JFrame {
         if (mniGrow8x == null) {
             mniGrow8x = new JMenuItem();
             mniGrow8x.setText("8x");
-            mniGrow8x.setMnemonic(KeyEvent.VK_8);
             mniGrow8x.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -251,53 +214,10 @@ public class MainFrame extends JFrame {
         return mniGrow8x;
     }
 
-    private JMenuItem getMniRotate90() {
-        if (mniRotate90 == null) {
-            mniRotate90 = new JMenuItem();
-            mniRotate90.setText("Rotate 90 degrees");
-            mniRotate90.setMnemonic(KeyEvent.VK_9);
-            mniRotate90.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    applyProcessing("Rota��o 90 graus", new RotateImage(Rotation.R90));
-                }
-            });
-        }
-        return mniRotate90;
-    }
-
-    private JMenuItem getMniRotate180() {
-        if (mniRotate180 == null) {
-            mniRotate180 = new JMenuItem();
-            mniRotate180.setText("Rotate 180 degrees");
-            mniRotate180.setMnemonic(KeyEvent.VK_1);
-            mniRotate180.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    applyProcessing("Rotate 180 degrees", new RotateImage(Rotation.R180));
-                }
-            });
-        }
-        return mniRotate180;
-    }
-
-    private JMenuItem getMniRotate270() {
-        if (mniRotate270 == null) {
-            mniRotate270 = new JMenuItem();
-            mniRotate270.setText("Rotate 270 degrees");
-            mniRotate270.setMnemonic(KeyEvent.VK_2);
-            mniRotate270.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    applyProcessing("Rotate 270 degrees", new RotateImage(Rotation.R270));
-                }
-            });
-        }
-        return mniRotate270;
-    }
-
     private JMenuItem getMniFlipVertical() {
         if (mniFlipVertical == null) {
             mniFlipVertical = new JMenuItem();
             mniFlipVertical.setText("Vertical");
-            mniFlipVertical.setMnemonic(KeyEvent.VK_V);
             mniFlipVertical
                     .addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -312,7 +232,6 @@ public class MainFrame extends JFrame {
         if (mniFlipHorizontal == null) {
             mniFlipHorizontal = new JMenuItem();
             mniFlipHorizontal.setText("Horizontal");
-            mniFlipHorizontal.setMnemonic(KeyEvent.VK_H);
             mniFlipHorizontal
                     .addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -327,7 +246,6 @@ public class MainFrame extends JFrame {
         if (mniFlipBoth == null) {
             mniFlipBoth = new JMenuItem();
             mniFlipBoth.setText("Both");
-            mniFlipBoth.setMnemonic(KeyEvent.VK_H);
             mniFlipBoth.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     applyProcessing("Flip both", new TransformImage(true, true));
@@ -341,7 +259,6 @@ public class MainFrame extends JFrame {
         if (mniCropToBorder == null) {
             mniCropToBorder = new JMenuItem();
             mniCropToBorder.setText("Just borders");
-            mniCropToBorder.setMnemonic(KeyEvent.VK_B);
             mniCropToBorder
                     .addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -352,61 +269,19 @@ public class MainFrame extends JFrame {
         return mniCropToBorder;
     }
 
-
-    private List<String> getImageNames(boolean sameSize) {
-        List<String> imagens = new ArrayList<String>();
-        for (JInternalFrame frame : getDskCenter().getAllFrames())
-            if (frame instanceof ImagemIFrame) {
-                if (sameSize) {
-                    BufferedImage selected = getSelectedFrame().getImage();
-                    BufferedImage other = ((ImagemIFrame) frame).getImage();
-                    if (other.getWidth() != selected.getWidth()
-                            || other.getHeight() != selected.getHeight())
-                        continue;
-                }
-                imagens.add(frame.getTitle());
-            }
-        return imagens;
-    }
-
-    private BufferedImage chooseImage(String title, String text,
-                                      boolean sameSize) {
-        List<String> imagens = getImageNames(sameSize);
-        imagens.remove(getSelectedFrame().getTitle());
-
-        if (imagens.size() == 0)
-            return null;
-
-        String imgName = (String) JOptionPane.showInputDialog(MainFrame.this,
-                text, title, JOptionPane.QUESTION_MESSAGE, null,
-                imagens.toArray(), imagens.get(0));
-
-        if (imgName == null)
-            return null;
-
-        BufferedImage img = null;
-        for (JInternalFrame frame : getDskCenter().getAllFrames())
-            if (frame instanceof ImagemIFrame
-                    && frame.getTitle().equals(imgName))
-                img = ((ImagemIFrame) frame).getImage();
-        return img;
-    }
-
     private JMenu getMnuAbout() {
-        if (mnuHelp == null) {
-            mnuHelp = new JMenu();
-            mnuHelp.setText("About");
-            mnuHelp.setMnemonic(KeyEvent.VK_A);
-            mnuHelp.add(getMniAbout());
+        if (mnuAbout == null) {
+            mnuAbout = new JMenu();
+            mnuAbout.setText("About");
+            mnuAbout.add(getMniAbout());
         }
-        return mnuHelp;
+        return mnuAbout;
     }
 
     private JMenuItem getMniOpen() {
         if (mniOpen == null) {
             mniOpen = new JMenuItem();
             mniOpen.setText("Open...");
-            mniOpen.setMnemonic(KeyEvent.VK_O);
             mniOpen.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     onOpen();
@@ -445,40 +320,6 @@ public class MainFrame extends JFrame {
 
     private ImagemIFrame getSelectedFrame() {
         return (ImagemIFrame) getDskCenter().getSelectedFrame();
-    }
-
-    private void onSaveAs() {
-        ImagemIFrame frame = getSelectedFrame();
-
-        if (frame == null)
-            return;
-
-        if (frame.getFile() != null)
-            getSaveDialog().setSelectedFile(frame.getFile());
-
-        if (getSaveDialog().showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
-            return;
-
-        try {
-            String fileName = getSaveDialog().getSelectedFile().getName();
-            String format;
-            int index = fileName.lastIndexOf(".");
-            if (index == -1) {
-                fileName = fileName + ".png";
-                format = "png";
-            } else {
-                format = fileName.substring(index + 1);
-            }
-
-            File file = new File(getSaveDialog().getSelectedFile()
-                    .getParentFile(), fileName);
-            ImageIO.write(frame.getImage(), format, file);
-            frame.setFile(file);
-            setTitle(frame);
-        } catch (IOException e) {
-            showError("Could not save file!");
-        }
-
     }
 
     private void openFile(File file, boolean showError) {
@@ -528,25 +369,10 @@ public class MainFrame extends JFrame {
         });
     }
 
-    private JMenuItem getMniSaveAs() {
-        if (mniSaveAs == null) {
-            mniSaveAs = new JMenuItem();
-            mniSaveAs.setText("Save as...");
-            mniSaveAs.setMnemonic(KeyEvent.VK_A);
-            mniSaveAs.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    onSaveAs();
-                }
-            });
-        }
-        return mniSaveAs;
-    }
-
     private JMenuItem getMniAbout() {
         if (mniAbout == null) {
             mniAbout = new JMenuItem();
             mniAbout.setText("About...");
-            mniAbout.setMnemonic(KeyEvent.VK_A);
             mniAbout.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     new AboutDialog(MainFrame.this).setVisible(true);
@@ -560,7 +386,6 @@ public class MainFrame extends JFrame {
         if (mniExit == null) {
             mniExit = new JMenuItem();
             mniExit.setText("Exit");
-            mniExit.setMnemonic(KeyEvent.VK_R);
             mniExit.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent e) {
                     onClose();
@@ -571,14 +396,6 @@ public class MainFrame extends JFrame {
     }
 
     protected void onClose() {
-        if (JOptionPane
-                .showConfirmDialog(
-                        this,
-                        "<html><body>Unsaved data can be lost<br>Are you sure?",
-                        "Close software", JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_NO_OPTION)
-            return;
-
         System.exit(0);
     }
 
@@ -640,5 +457,4 @@ public class MainFrame extends JFrame {
         }
         return jContentPane;
     }
-
 }

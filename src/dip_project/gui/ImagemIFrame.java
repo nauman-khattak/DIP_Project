@@ -1,13 +1,3 @@
-/*===========================================================================
-COPYRIGHT 2013 Vinícius G. Mendonça ALL RIGHTS RESERVED.
-
-This software cannot be copied, stored, distributed without
-Vinícius G. Mendonça prior authorization.
-
-This file was made available on https://github.com/ViniGodoy and it
-is free to be redistributed or used under Creative Commons license 2.5 br:
-http://creativecommons.org/licenses/by-sa/2.5/br/
-============================================================================*/
 package dip_project.gui;
 
 import dip_project.util.Util;
@@ -32,10 +22,7 @@ public class ImagemIFrame extends JInternalFrame {
     private JScrollPane srclImagem = null;
     private static int counter = 1;
     private int zoom = 4;
-
-    /**
-     * This is the xxx default constructor
-     */
+    
     public ImagemIFrame(String title, File file, BufferedImage image) {
         super();
         initialize();
@@ -79,9 +66,6 @@ public class ImagemIFrame extends JInternalFrame {
         pack();
     }
 
-    /**
-     * This method initializes this
-     */
     private void initialize() {
         this.setSize(300, 200);
         this.setClosable(true);
@@ -91,11 +75,6 @@ public class ImagemIFrame extends JInternalFrame {
         this.setContentPane(getJContentPane());
     }
 
-    /**
-     * This method initializes jContentPane
-     *
-     * @return javax.swing.JPanel
-     */
     private JPanel getJContentPane() {
         if (jContentPane == null) {
 
@@ -114,11 +93,6 @@ public class ImagemIFrame extends JInternalFrame {
         return image;
     }
 
-    /**
-     * This method initializes srclImagem
-     *
-     * @return javax.swing.JScrollPane
-     */
     private JScrollPane getSrclImagem() {
         if (srclImagem == null) {
             srclImagem = new JScrollPane();
