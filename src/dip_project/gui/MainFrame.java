@@ -1,9 +1,9 @@
 package dip_project.gui;
 
 import dip_project.ImageLoader;
-import dip_project.color.ARGBChannels;
-import dip_project.color.ColorChannel;
-import dip_project.color.GrayScaleChannel;
+//import dip_project.color.ARGBChannels;
+//import dip_project.color.ColorChannel;
+//import dip_project.color.GrayScaleChannel;
 import dip_project.processing.Processing;
 import dip_project.transform.*;
 
@@ -42,35 +42,8 @@ public class MainFrame extends JFrame {
     private ImageLoader loader = new ImageLoader(); 
     private static final String[] SUPPORTED_FORMATS = {"png", "jpg", "jpeg",
             "png", "gif", "tiff", "tif", "bmp"};
-    private JMenu mnuSmoothing = null;
-    private JMenu mnuBorders = null;
-    private JMenu mnuAverage = null;
-    private JMenuItem mniF1 = null;
-    private JMenuItem mniF2 = null;
-    private JMenuItem mniF3 = null;
-    private JMenuItem mniF4 = null;
-    private JMenu mnuPrewitt = null;
-    private JMenuItem mniPrewittGx = null;
-    private JMenuItem mniPrewittG = null;
-    private JMenuItem mniPrewittGy = null;
-    private JMenu mnuSobel1 = null;
-    private JMenuItem mniSobelG1x = null;
-    private JMenuItem mniSobelG1y = null;
-    private JMenuItem mniSobelG1 = null;
-    private JMenu mnuSobel2 = null;
-    private JMenuItem mniSobelG2 = null;
-    private JMenuItem mniSobelG2x = null;
-    private JMenuItem mniSobelG2y = null;
-    private JMenuItem mniMean = null;
-    private JMenuItem mniLaplace = null;
+    
     private JMenuItem mniNegative;
-    private JMenu mnuChannels = null;
-    private JRadioButtonMenuItem radRGB = null;
-    private JRadioButtonMenuItem radGrayscale = null;
-    private ButtonGroup bgChannels = new ButtonGroup();
-    private ColorChannel[] channels = ARGBChannels.colors();
-    private JMenuItem mniHistogramRedistribution = null;
-
     private JMenuItem mniRotate90;
     private JMenuItem mniRotate180;
     private JMenuItem mniRotate270;
@@ -131,8 +104,6 @@ public class MainFrame extends JFrame {
             mnuEdit.add(getMnuShrink());
             mnuEdit.add(getMnuGrow());
             mnuEdit.addSeparator();
-            mnuEdit.add(getMniNegative());
-            mnuEdit.add(getMniSubtract());
             mnuEdit.add(getMniCropToBorder());
         }
         return mnuEdit;
@@ -366,37 +337,6 @@ public class MainFrame extends JFrame {
             });
         }
         return mniFlipBoth;
-    }
-
-    private JMenuItem getMniNegative() {
-        if (mniNegative == null) {
-            mniNegative = new JMenuItem();
-            mniNegative.setText("Negate");
-            mniNegative.setMnemonic(KeyEvent.VK_N);
-            mniNegative.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    applyProcessing("Negate", new Negation(channels));
-                }
-            });
-        }
-        return mniNegative;
-    }
-
-    private JMenuItem getMniSubtract() {
-        if (mniSubtract == null) {
-            mniSubtract = new JMenuItem();
-            mniSubtract.setText("Subtraction");
-            mniSubtract.setMnemonic(KeyEvent.VK_S);
-            mniSubtract.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    BufferedImage img = chooseImage("Subtract", "Choose the image to subtract", false);
-                    if (img == null)
-                        return;
-                    applyProcessing("Subtraction", new Subtraction(img, channels));
-                }
-            });
-        }
-        return mniSubtract;
     }
 
     private JMenuItem getMniCropToBorder() {
@@ -656,48 +596,6 @@ public class MainFrame extends JFrame {
             return;
         openWindow(name, null, new FilterProgressDialog(this).showModal(filter,
                 getSelectedFrame().getImage()));
-    }
-
-    private JMenu getMnuChannels() {
-        if (mnuChannels == null) {
-            mnuChannels = new JMenu();
-            mnuChannels.setText("Channels");
-            mnuChannels.add(getRadRGB());
-            mnuChannels.add(getRadGrayscale());
-        }
-        return mnuChannels;
-    }
-
-    private JRadioButtonMenuItem getRadRGB() {
-        if (radRGB == null) {
-            radRGB = new JRadioButtonMenuItem();
-            radRGB.setText("RGB");
-            radRGB.setSelected(true);
-            radRGB.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (radRGB.isSelected())
-                        channels = ARGBChannels.colors();
-                }
-            });
-            bgChannels.add(radRGB);
-        }
-        return radRGB;
-    }
-
-    private JRadioButtonMenuItem getRadGrayscale() {
-        if (radGrayscale == null) {
-            radGrayscale = new JRadioButtonMenuItem();
-            radGrayscale.setText("Grayscale");
-            radGrayscale.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    if (radGrayscale.isSelected())
-                        channels = GrayScaleChannel.values();
-                }
-            });
-            bgChannels.add(radGrayscale);
-        }
-        return radGrayscale;
     }
 
     public static void main(final String[] args) {

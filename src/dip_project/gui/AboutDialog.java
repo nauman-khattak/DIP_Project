@@ -35,7 +35,7 @@ public class AboutDialog extends JDialog {
         this.setResizable(false);
         this.setBackground(Color.white);
         this.setModal(true);
-        this.setTitle("About the image editor...");
+        this.setTitle("About DIP Project");
         this.setContentPane(getJContentPane());
     }
 
@@ -52,9 +52,9 @@ public class AboutDialog extends JDialog {
             lblLogo.setBackground(Color.white);
             lblLogo.setVerticalAlignment(SwingConstants.TOP);
             lblLogo.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 10));
-            lblLogo.setIcon(new ImageIcon(getClass().getResource("/br/com/vinigodoy/image/gui/resource/LogoPucSmall.jpg")));
+            lblLogo.setIcon(new ImageIcon(getClass().getResource("/dip_project/gui/resource/LogoPucSmall.jpg")));
             lblAbout = new JLabel();
-            lblAbout.setText("<html><body><b><font size=+1>Image editor</font><p>Version 1.3.0<p></b><p><b>Author:</b> Vinicius Godoy de Mendonca<p><b>Coordinator:</b> Jacques Facon<p><p>Developed in the Computer Vision Group of PUCPR PPGIa.");
+            lblAbout.setText("<html><body><b><font size=+1>DIP Project</font></b><br /><br /><p><b>Group Members:</b><br />Muhammad Nauman Tariq<br />Muhammad Abubakar<br />Umer Farooq<p><b><br />Teacher:</b><br />Dr. Naima Iltaf<p>");
             lblAbout.setBackground(Color.white);
             lblAbout.setOpaque(true);
             lblAbout.setVerticalAlignment(SwingConstants.TOP);

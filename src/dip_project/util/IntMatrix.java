@@ -10,8 +10,6 @@ http://creativecommons.org/licenses/by-sa/2.5/br/
 ============================================================================*/
 package dip_project.util;
 
-import dip_project.color.ColorChannel;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
@@ -87,24 +85,6 @@ public class IntMatrix {
             }
             l++;
         }
-    }
-
-    public int getMean(ColorChannel channel) {
-        int[] pixels = new int[values.length];
-        for (int i = 0; i < values.length; i++)
-            pixels[i] = channel.get(values[i]);
-        Arrays.sort(pixels);
-        return pixels[values.length / 2];
-    }
-
-    public int convolute(DoubleMatrix kernel, ColorChannel channel) {
-        double color = 0;
-
-        for (int x = 0; x < getWidth(); x++)
-            for (int y = 0; y < getHeight(); y++)
-                color += channel.get(get(x, y)) * kernel.get(x, y);
-
-        return (int) color;
     }
 
     public int centerX() {
