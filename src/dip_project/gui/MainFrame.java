@@ -43,7 +43,6 @@ public class MainFrame extends JFrame {
     private static final String[] SUPPORTED_FORMATS = {"png", "jpg", "jpeg",
             "png", "gif", "tiff", "tif", "bmp"};
     
-    private JMenuItem mniNegative;
     private JMenuItem mniRotate90;
     private JMenuItem mniRotate180;
     private JMenuItem mniRotate270;
@@ -60,7 +59,6 @@ public class MainFrame extends JFrame {
     private JMenuItem mniGrow2x;
     private JMenuItem mniGrow4x;
     private JMenuItem mniGrow8x;
-    private JMenuItem mniSubtract;
     private JMenuItem mniCropToBorder;
 
     private JDesktopPane getDskCenter() {
@@ -75,7 +73,7 @@ public class MainFrame extends JFrame {
             mbMenu = new JMenuBar();
             mbMenu.add(getMnuFile());
             mbMenu.add(getMnuEdit());
-            mbMenu.add(getMnuHelp());
+            mbMenu.add(getMnuAbout());
         }
         return mbMenu;
     }
@@ -394,11 +392,11 @@ public class MainFrame extends JFrame {
         return img;
     }
 
-    private JMenu getMnuHelp() {
+    private JMenu getMnuAbout() {
         if (mnuHelp == null) {
             mnuHelp = new JMenu();
-            mnuHelp.setText("Help");
-            mnuHelp.setMnemonic(KeyEvent.VK_H);
+            mnuHelp.setText("About");
+            mnuHelp.setMnemonic(KeyEvent.VK_A);
             mnuHelp.add(getMniAbout());
         }
         return mnuHelp;
