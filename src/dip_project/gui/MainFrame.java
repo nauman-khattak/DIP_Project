@@ -34,8 +34,12 @@ public class MainFrame extends JFrame {
     private static final String[] SUPPORTED_FORMATS = {"png", "jpg", "jpeg",
             "png", "gif", "tiff", "tif", "bmp"};
     
+    private JMenuItem mniRotate90;
+    private JMenuItem mniRotate180;
+    private JMenuItem mniRotate270;
     private JMenuItem mniFlipVertical;
     private JMenuItem mniFlipHorizontal;
+    private JMenu mnuRotate;
     private JMenuItem mniFlipBoth;
     private JMenu mnuFlip;
     private JMenu mnuGrow;
@@ -80,6 +84,7 @@ public class MainFrame extends JFrame {
         if (mnuEdit == null) {
             mnuEdit = new JMenu();
             mnuEdit.setText("Edit");
+            mnuEdit.add(getMnuRotate());
             mnuEdit.add(getMnuFlip());
             mnuEdit.addSeparator();
             mnuEdit.add(getMnuShrink());
@@ -88,6 +93,17 @@ public class MainFrame extends JFrame {
             mnuEdit.add(getMniCropToBorder());
         }
         return mnuEdit;
+    }
+
+    private JMenu getMnuRotate() {
+        if (mnuRotate == null) {
+            mnuRotate = new JMenu();
+            mnuRotate.setText("Rotate");
+            mnuRotate.add(getMniRotate90());
+            mnuRotate.add(getMniRotate180());
+            mnuRotate.add(getMniRotate270());
+        }
+        return mnuRotate;
     }
 
     private JMenu getMnuFlip() {
@@ -211,6 +227,45 @@ public class MainFrame extends JFrame {
             });
         }
         return mniGrow8x;
+    }
+
+    private JMenuItem getMniRotate90() {
+        if (mniRotate90 == null) {
+            mniRotate90 = new JMenuItem();
+            mniRotate90.setText("Rotate 90 degrees");
+            mniRotate90.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    applyProcessing("Rotate 90 degrees", new RotateImage(Rotation.R90));
+                }
+            });
+        }
+        return mniRotate90;
+    }
+
+    private JMenuItem getMniRotate180() {
+        if (mniRotate180 == null) {
+            mniRotate180 = new JMenuItem();
+            mniRotate180.setText("Rotate 180 degrees");
+            mniRotate180.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    applyProcessing("Rotate 180 degrees", new RotateImage(Rotation.R180));
+                }
+            });
+        }
+        return mniRotate180;
+    }
+
+    private JMenuItem getMniRotate270() {
+        if (mniRotate270 == null) {
+            mniRotate270 = new JMenuItem();
+            mniRotate270.setText("Rotate 270 degrees");
+            mniRotate270.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    applyProcessing("Rotate 270 degrees", new RotateImage(Rotation.R270));
+                }
+            });
+        }
+        return mniRotate270;
     }
 
     private JMenuItem getMniFlipVertical() {
